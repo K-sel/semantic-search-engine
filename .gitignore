@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+.env
+data/*
+
+# SQLite / FAISS
+*.sqlite
+*.faiss
+
+# Environnements
+env/
+venv/
+.semantic-search/
+
+# IDE / OS
+*.swp
+.DS_Store
+.idea/
+.vscode/
+
+# Logs
+*.log
