@@ -11,8 +11,7 @@ docs = os.listdir(path)
 # Database
 con = sqlite3.connect("docs.db")
 db = con.cursor()
-db.execute("CREATE TABLE IF NOT EXISTS docs(title, snippet)")
-
+db.execute("CREATE TABLE IF NOT EXISTS docs(id INTEGER PRIMARY KEY, title TEXT, snippet TEXT)")
 # Embeedings
 model = SentenceTransformer("all-MiniLM-L6-v2")
 all_embeddings = []
@@ -44,7 +43,7 @@ for i, file in enumerate(docs):
         print(f"Snippet: {snippet}")
         print("-" * 40)
 
-        db.execute("INSERT INTO docs (title, snippet) VALUES (?,?)", [title, snippet])
+        db.execute("INSERT INTO docs (id, title, snippet) VALUES (?,?,?)", [i, title, snippet])
         con.commit()
 
 con.close()
