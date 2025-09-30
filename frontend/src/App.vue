@@ -4,7 +4,7 @@
 
 import { onMounted, ref } from "vue";
 import TextCard from "./component/Text-Card.vue";
-import Visualisation from "./component/Text.vue";
+import Text from "./component/Text.vue";
 import SearchBar from "./component/SearchBar.vue";
 import Header from "./component/Header.vue";
 const results = ref(null);
@@ -18,6 +18,7 @@ onMounted(() => {
       indexes.value = data.index_size;
     });
 });
+
 const handleSearch = async (query) => {
   if (!query || query.trim() === "") {
     results.value = [];
@@ -32,6 +33,7 @@ const doc = ref(null);
 const printDoc = (selectedDoc) => {
   doc.value = selectedDoc;
 };
+
 </script>
 
 <template>
@@ -73,7 +75,7 @@ const printDoc = (selectedDoc) => {
     <div
       class="border-l hidden md:flex border-gray-200 bg-white w-[50%] h-full flex-col"
     >
-      <Visualisation :selectedResult="doc" />
+      <Text :selectedResult="doc" />
     </div>
   </main>
 </template>
