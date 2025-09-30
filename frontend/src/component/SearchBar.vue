@@ -25,7 +25,7 @@ const handleSearch = (e) => {
       <div class="relative">
         <input
           name="query"
-          type="search"x
+          type="search"
           placeholder="Rechercher dans la base de connaissances..."
           class="w-full p-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:outline-none focus:border-blue-500 focus:bg-white transition-all duration-200 text-slate-800 placeholder-slate-400"
         />
