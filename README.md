@@ -141,25 +141,38 @@ Trouve aussi : "apprentissage automatique"
 
 **FAISS** (Facebook AI Similarity Search) permet la recherche vectorielle ultra-rapide.
 
-### IndexFlatIP : Similarité cosinus
+### IndexFlatIP vs IndexFlatL2
 
-Notre projet utilise `IndexFlatIP` qui calcule le **produit scalaire** (équivalent à la similarité cosinus pour des vecteurs normalisés) :
+Notre projet utilise `IndexFlatIP` qui calcule le **produit scalaire** :
 
 ```python
 index = faiss.IndexFlatIP(384)
 ```
 
-**Avantages :**
-- Mesure la similarité directionnelle (orientation des vecteurs)
-- Score entre -1 et 1 (1 = identique, 0 = orthogonal, -1 = opposé)
-- Plus intuitif : **score élevé = meilleur résultat**
-- Précis à 100%
+**Quand utiliser IndexFlatIP :**
+- **Vecteurs normalisés** (comme Sentence Transformers) : équivalent à la similarité cosinus
+- **Score intuitif** : valeurs 0-1, plus élevé = meilleur
+- **Recherche sémantique** : on compare l'orientation (le sens), pas la magnitude
+- **Recommandations** : "cet article est similaire à celui-ci"
 
-**Différence avec L2 :**
-- `IndexFlatL2` : Distance euclidienne (longueur du vecteur compte)
-- `IndexFlatIP` : Similarité cosinus (seule l'orientation compte)
+**Quand utiliser IndexFlatL2 :**
+- **Vecteurs non normalisés** où la magnitude compte
+- **Embeddings d'images** avec des modèles qui ne normalisent pas
+- **Distance physique** : coordonnées GPS, données spatiales
+- **Données numériques brutes** : température, prix, mesures
 
-Pour les embeddings textuels normalisés, la similarité cosinus est généralement préférée.
+**Note importante :** Avec Sentence Transformers, les vecteurs sont automatiquement normalisés. Dans ce cas, **IndexFlatIP et IndexFlatL2 donnent des classements identiques** (seule l'échelle des scores diffère). On préfère IP pour l'interprétabilité du score.
+
+### Comparaison des index FAISS
+
+| Index | Vitesse | Précision | RAM | Meilleur pour |
+|-------|---------|-----------|-----|---------------|
+| **FlatIP/L2** | Lent (O(n)) | 100% | Élevée | < 100k vecteurs, précision critique |
+| **IVFFlat** | Rapide (O(log n)) | 90-95% | Moyenne | 100k-10M vecteurs, bon équilibre |
+| **IVFPQ** | Très rapide | 85-90% | Faible | 10M+ vecteurs, RAM limitée |
+| **HNSW** | Très rapide | 95-99% | Élevée | Meilleure qualité approximative |
+
+**Notre choix :** IndexFlatIP car précision maximale pour un dataset de taille modérée (~1k-100k documents).
 
 ---
 
