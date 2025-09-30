@@ -6,6 +6,27 @@ Application de **recherche sémantique** qui comprend le sens des requêtes plut
 
 Ce projet a été développé pour apprendre et comprendre comment fonctionne un moteur de recherche moderne et a par la même occasion servi de projet final soumis à Harvard pour valider mon cours CS50.
 
+
+## 📚 Table des matières
+
+- [📋 Vue d'ensemble](#-vue-densemble)
+- [🚀 Démarrage](#-démarrage)
+- [🧠 Comment fonctionne la recherche sémantique ?](#-comment-fonctionne-la-recherche-sémantique-)
+  - [Le problème avec la recherche classique](#le-problème-avec-la-recherche-classique)
+  - [La solution : les embeddings vectoriels](#la-solution--les-embeddings-vectoriels)
+- [🔬 Architecture du moteur de recherche](#-architecture-du-moteur-de-recherche)
+  - [Étape 1 : Préparation des données](#étape-1--préparation-des-données-datasetpy)
+  - [Étape 2 : Indexation](#étape-2--indexation-indexerpy)
+  - [Étape 3 : Recherche en temps réel](#étape-3--recherche-en-temps-réel-apppy)
+- [🎯 Pourquoi c'est puissant ?](#-pourquoi-cest-puissant-)
+- [🔍 FAISS : Le cœur du système](#-faiss--le-cœur-du-système)
+  - [Comparaison des index FAISS](#comparaison-des-index-faiss)
+- [🎨 Flux complet d'une recherche](#-flux-complet-dune-recherche)
+- [🧪 Exemple concret](#-exemple-concret)
+- [🔧 API Endpoints](#-api-endpoints)
+
+--- 
+
 ### Technologies principales
 - **Backend** : Flask + FAISS + Sentence Transformers
 - **Frontend** : Vue.js 3 + Vite
