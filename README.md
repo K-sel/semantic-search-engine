@@ -40,6 +40,12 @@ Ce projet a été développé pour apprendre et comprendre comment fonctionne un
 # Cloner et lancer
 git clone <repo>
 cd semantic-search
+
+cd backend
+python dataset.py
+python indexer.py
+
+cd ..
 docker-compose up --build
 
 # Puis ouvrir dans votre navigateur
