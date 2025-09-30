@@ -1,0 +1,18 @@
+name: semantic-search
+channels:
+  - defaults
+  - pytorch
+dependencies:
+  - python=3.10
+  - pytorch::faiss-cpu  # ← Spécifier le canal
+  - pip:
+    - flask==3.1.2
+    - numpy==1.26.4
+    - pandas==2.3.2
+    - faiss-cpu==1.9.0
+    - sentence-transformers==5.1.1
+    - torch==2.8.0
+    - datasets==4.1.1
+    - scikit-learn==1.7.2
+    - requests==2.32.5
+prefix: /opt/miniconda3/envs/semantic-search

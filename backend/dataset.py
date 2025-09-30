@@ -12,7 +12,7 @@ os.makedirs("data", exist_ok=True)
 ds = load_dataset("debasishraychawdhuri/wikipedia_clean_5GB", split="train", streaming=True)
 
 # Variables de contrôle
-target_docs = 100  # Nombre de documents voulus
+target_docs = 1000  # Nombre de documents voulus
 saved_count = 0
 processed_count = 0
 min_length = 500  # Longueur minimale en caractères
