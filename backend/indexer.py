@@ -11,7 +11,7 @@ docs = os.listdir(path)
 # Database
 con = sqlite3.connect("docs.db")
 db = con.cursor()
-db.execute("CREATE TABLE IF NOT EXISTS docs(id INTEGER PRIMARY KEY, title TEXT, snippet TEXT)")
+db.execute("CREATE TABLE IF NOT EXISTS docs(id INTEGER PRIMARY KEY, title TEXT, content TEXT)")
 # Embeedings
 model = SentenceTransformer("all-MiniLM-L6-v2")
 all_embeddings = []
@@ -34,16 +34,10 @@ for i, file in enumerate(docs):
 
         vectorise_text(model, content, i)
 
-        snippet = content[:200] + "..."
-
         words = content.split()
         title = " ".join(words[:1]) if len(words) >= 3 else " ".join(words)
 
-        print(f"Titre: {title}")
-        print(f"Snippet: {snippet}")
-        print("-" * 40)
-
-        db.execute("INSERT INTO docs (id, title, snippet) VALUES (?,?,?)", [i, title, snippet])
+        db.execute("INSERT INTO docs (id, title, content) VALUES (?,?,?)", [i, title, content])
         con.commit()
 
 con.close()

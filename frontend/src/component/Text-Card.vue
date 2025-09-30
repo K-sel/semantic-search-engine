@@ -2,22 +2,22 @@
 const result = defineProps({
   title: {
     type: String,
-    default: "Title",
   },
   content: {
     type: String,
-    default:
-      "This is a brief excerpt from the document to give context about its content...",
   },
   similarity: {
     type: Number,
-    default: 0.85,
   },
 });
+
+const snippet = result.content.slice(0, 200) + "...";
 </script>
 
 <template>
-  <div class="p-5  hover:border-purple-400 transition-colors border-1 bg-white border-gray-200 rounded-xl">
+  <div
+    class="p-5 hover:border-purple-400 transition-colors border-1 bg-white border-gray-200 rounded-xl"
+  >
     <div class="flex items-start justify-between mb-2">
       <h3
         class="text-lg font-semibold text-slate-800 group-hover:text-blue-600 transition-colors"
@@ -36,7 +36,7 @@ const result = defineProps({
       </div>
     </div>
     <p class="text-sm text-slate-600 leading-relaxed line-clamp-2">
-      {{ result.content }}
+      {{ snippet }}
     </p>
     <div class="mt-3 flex items-center gap-2">
       <span class="text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded">
@@ -46,6 +46,4 @@ const result = defineProps({
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

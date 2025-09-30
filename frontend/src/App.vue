@@ -1,56 +1,33 @@
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import TextCard from "./component/Text-Card.vue";
 import Visualisation from "./component/Text.vue";
 import SearchBar from "./component/SearchBar.vue";
 import Header from "./component/Header.vue";
-const searchQuery = ref("");
-const isSearching = ref(false);
+const results = ref(null);
+const indexes = ref(null);
 
-const mockResults = ref([
-  {
-    id: 1,
-    title: "Introduction to Machine Learning",
-    content:
-      "Machine learning is a subset of artificial intelligence that enables systems to learn and improve from experience without being explicitly programmed...",
-    similarity: 0.94,
-  },
-  {
-    id: 2,
-    title: "Neural Networks Explained",
-    content:
-      "Neural networks are computing systems inspired by biological neural networks that constitute animal brains. They learn to perform tasks by considering examples...",
-    similarity: 0.89,
-  },
-  {
-    id: 3,
-    title: "Deep Learning Fundamentals",
-    content:
-      "Deep learning is part of a broader family of machine learning methods based on artificial neural networks with representation learning...",
-    similarity: 0.87,
-  },
-  {
-    id: 4,
-    title: "Natural Language Processing",
-    content:
-      "NLP is a subfield of linguistics, computer science, and artificial intelligence concerned with the interactions between computers and human language...",
-    similarity: 0.82,
-  },
-  {
-    id: 5,
-    title: "Computer Vision Applications",
-    content:
-      "Computer vision is an interdisciplinary scientific field that deals with how computers can gain high-level understanding from digital images or videos...",
-    similarity: 0.78,
-  },
-]);
+onMounted(() => {
+  fetch("http://localhost:5173/api/")
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      indexes.value = data.index_size;
+    });
+});
+const handleSearch = async (query) => {
+  if (!query || query.trim() === "") {
+    results.value = [];
+    return;
+  }
+  const response = await fetch(`http://localhost:5173/api/search?q=${query}`);
+  results.value = await response.json();
+};
 
-const handleSearch = (e) => {
-  e.preventDefault();
-  isSearching.value = true;
-  setTimeout(() => {
-    isSearching.value = false;
-  }, 800);
+const doc = ref(null);
+
+const printDoc = (selectedDoc) => {
+  doc.value = selectedDoc;
 };
 </script>
 
@@ -63,7 +40,7 @@ const handleSearch = (e) => {
       <Header />
 
       <!-- Search Bar -->
-      <SearchBar />
+      <SearchBar :indexed-count="indexes" @search="handleSearch" />
 
       <!-- Results -->
       <div class="flex-1 overflow-y-auto p-6 space-y-4">
@@ -80,15 +57,20 @@ const handleSearch = (e) => {
           </span>
         </div>
 
-        <div v-for="result in 5">
-          <TextCard />
+        <div v-for="doc in results" :key="doc.id">
+          <TextCard
+            @click="printDoc(doc)"
+            :content="doc.content"
+            :title="doc.title"
+            :similarity="doc.score"
+          />
         </div>
       </div>
     </div>
     <div
       class="border-l hidden md:flex border-gray-200 bg-white w-[50%] h-full flex-col"
     >
-      <Visualisation />
+      <Visualisation :selectedResult="doc" />
     </div>
   </main>
 </template>

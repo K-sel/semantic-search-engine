@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, computed, watch } from "vue";
 
 const props = defineProps({
   selectedResult: {
@@ -7,8 +7,6 @@ const props = defineProps({
     default: null,
   },
 });
-
-const emit = defineEmits(["close"]);
 
 const projectInfo = ref({
   id: 0,
@@ -62,15 +60,13 @@ Utilisation :
 5. Cliquez sur un résultat pour voir le contenu complet
 
 Ce projet démontre la puissance de l'IA moderne pour améliorer l'expérience de recherche et de découverte d'information. La recherche sémantique représente une évolution majeure par rapport aux systèmes traditionnels basés sur des mots-clés.`,
-  similarity: 1.0,
-  date: "Projet 2024"
+  score: 1.0,
 });
 
-const displayResult = props.selectedResult || projectInfo.value;
+const displayResult = computed(() => {
+  return props.selectedResult || projectInfo.value;
+});
 
-const handleClose = () => {
-  emit("close");
-};
 </script>
 
 <template>
@@ -90,7 +86,7 @@ const handleClose = () => {
                 class="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"
               ></div>
               <span class="text-xs font-semibold text-slate-700">
-                {{ Math.round(displayResult.similarity * 100) }}% similarité
+                {{ Math.round(displayResult.score * 100) }}% similarité
               </span>
             </div>
           </div>
@@ -118,7 +114,7 @@ const handleClose = () => {
         >
           <span
             >Cosine similarity:
-            {{ displayResult.similarity?.toFixed(4) || "N/A" }}</span
+            {{ displayResult.score?.toFixed(4) || "N/A" }}</span
           >
         </div>
       </div>
